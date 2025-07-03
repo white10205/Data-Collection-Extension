@@ -36,8 +36,11 @@
   </van-form>
 </template>
 
-<script setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import { ref ,defineProps} from 'vue';
+const props = defineProps<{
+  submit: (keyword: string, num: number, type: string[]) => {};
+}>;
 
 const formData = ref({
   keyword: '',
@@ -45,5 +48,7 @@ const formData = ref({
   type: [],
 });
 
-const onSubmit = () => {};
+const onSubmit = () => {
+  props.submit(...formData.value);
+};
 </script>
