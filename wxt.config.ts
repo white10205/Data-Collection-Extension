@@ -1,20 +1,14 @@
-import { defineConfig } from "wxt";
+import { defineConfig } from 'wxt';
 
-// See https://wxt.dev/api/config.html
 export default defineConfig({
-  extensionApi: "chrome",
-  modules: ["@wxt-dev/module-vue"],
-  srcDir: "src",
-  outDir: "dist",
-  dev: {
-    server: {
-      port: 3001
-    }
-  },
+  extensionApi: 'chrome',
+  modules: ['@wxt-dev/module-vue'],
+  srcDir: 'src',
+  outDir: 'dist',
   manifest: {
-    name: '社媒助手开源版',
-    description: '社媒助手的开源版本。',
-    permissions: ["tabs", "scripting", "cookies"],
-    host_permissions: ["<all_urls>"],
-  }
+    name: '数据采集插件',
+    description: '数据采集插件',
+    permissions: ['tabs', 'scripting', 'cookies'],
+    host_permissions: ['<all_urls>'],
+  },
 });
