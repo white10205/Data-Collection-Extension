@@ -8,7 +8,7 @@ export default defineConfig({
   manifest: {
     name: '数据采集插件',
     description: '数据采集插件',
-    permissions: ['tabs', 'scripting', 'cookies'],
+    permissions: ['tabs', 'scripting', 'cookies', 'downloads'],
     host_permissions: ['<all_urls>'],
   },
 });

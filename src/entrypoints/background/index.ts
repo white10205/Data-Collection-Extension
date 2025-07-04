@@ -1,3 +1,5 @@
+import { extractNotes } from '@/utils/extraData';
+import { exportToExcel } from '@/utils/exportToExcel';
 export default defineBackground(() => {
   /// background.js
 
@@ -26,6 +28,22 @@ export default defineBackground(() => {
   //     });
   //   }
   // });
+
+  const collectData: any[] = [];
+  // 监听来自sidepanel等的消息
+  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === 'NOTE_DATA') {
+      console.log('收到NOTE_DATA:', message.data);
+
+      collectData.push(message.data);
+    }
+
+    if (message.type === 'EXPORT') {
+      console.log('当前收集到的数据', collectData);
+      const data = extractNotes(collectData);
+      exportToExcel(data);
+    }
+  });
 
   console.log('background.js 加载完毕');
 });

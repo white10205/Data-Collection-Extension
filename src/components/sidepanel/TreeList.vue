@@ -2,29 +2,33 @@
   <div class="tree-container">
     <div class="item" v-for="item in tree" :key="item.title">
       <h3 color="#bebdbd">{{ item.title }}</h3>
-      <div class="btn" v-for="btn in item.func" :key="btn.desc">{{ btn.desc }} ></div>
+      <div class="btn" v-for="btn in item.func" :key="btn.desc" @click="props.change(btn.type)">{{ btn.desc }} ></div>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
-
+const props = defineProps<{
+  change: ( type: string) => {};
+}>();
 const tree = ref([
   {
     title: '采集博主信息',
     func: [
       {
-        desc: '根据博主链接采集',
+        desc: '批量导出博主信息',
         onclick: () => {
           console.log('采集');
         },
+        type:'1'
       },
       {
         desc: '根据关键词采集',
         onclick: () => {
           console.log('采集');
         },
+        type:'2'
       },
     ],
   },
@@ -36,18 +40,21 @@ const tree = ref([
         onclick: () => {
           console.log('采集');
         },
+        type:'3'
       },
       {
         desc: '根据笔记链接采集',
         onclick: () => {
           console.log('采集');
         },
+        type:'4'
       },
       {
         desc: '根据关键词采集',
         onclick: () => {
           console.log('采集');
         },
+        type:'5'
       },
     ],
   },
@@ -59,6 +66,7 @@ const tree = ref([
         onclick: () => {
           console.log('采集');
         },
+        type:'6'
       },
     ],
   },

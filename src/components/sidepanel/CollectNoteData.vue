@@ -15,7 +15,7 @@
         placeholder="一次性导出的数量"
         :rules="[{ required: true, message: '请填写数量' }]"
       />
-      <van-field
+      <!-- <van-field
         name="checkboxGroup"
         label="笔记类型"
         :rules="[{ required: true, message: '至少选择一种要导出的类型' }]"
@@ -26,7 +26,7 @@
             <van-checkbox name="2" shape="square">视频</van-checkbox>
           </van-checkbox-group>
         </template>
-      </van-field>
+      </van-field> -->
     </van-cell-group>
     <div style="margin: 16px">
       <van-button round block type="primary" native-type="submit">
@@ -37,10 +37,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref ,defineProps} from 'vue';
+import { ref, defineProps } from 'vue';
 const props = defineProps<{
   submit: (keyword: string, num: number, type: string[]) => {};
-}>;
+}>();
 
 const formData = ref({
   keyword: '',
@@ -49,6 +49,6 @@ const formData = ref({
 });
 
 const onSubmit = () => {
-  props.submit(...formData.value);
+  props.submit(formData.value.keyword, formData.value.num, formData.value.type);
 };
 </script>

@@ -1,14 +1,19 @@
 <template>
   <div class="header-container">
     <div class="logo">
+      <span class="back" @click="props.back"><</span>
       <img src="/src/assets/icon/32.png" alt="" />
       <span class="text">数据采集插件</span>
     </div>
-    <img src="" alt="">
+    <img src="" alt="" />
   </div>
 </template>
 
 <script lang="ts" setup>
+import { defineProps } from 'vue';
+const props = defineProps<{
+  back: any;
+}>();
 </script>
 
 <style scoped>
@@ -18,12 +23,23 @@
   align-items: center;
   padding: 15px;
 }
-.logo{
+.back {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+  text-align: center;
+  line-height: 25px;
+}
+.back:hover {
+  background-color: #c0bfbf;
+}
+.logo {
   display: flex;
   align-items: center;
   gap: 5px;
 }
-.text{
+.text {
   font-size: 20px;
   font-weight: 600;
 }

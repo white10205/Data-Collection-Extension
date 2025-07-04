@@ -17,6 +17,8 @@ export function exportToExcel(
         发布时间: item.publish_time,
         笔记链接: item.noteLink,
         博主链接: item.homeLink,
+        笔记内容: item.desc,
+        地区: item.ip,
       }));
 
       // 2. 创建工作簿

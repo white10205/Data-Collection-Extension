@@ -8,6 +8,8 @@ import {
   Button,
   CheckboxGroup,
   Checkbox,
+  Progress,
+  Toast,
 } from 'vant';
 // 2. 引入组件样式
 import 'vant/lib/index.css';
@@ -15,5 +17,11 @@ const app = createApp(App);
 app.use(Form);
 app.use(Field);
 app.use(CellGroup);
-app.use(Switch).use(Button).use(CheckboxGroup).use(Checkbox);
+app
+  .use(Switch)
+  .use(Button)
+  .use(CheckboxGroup)
+  .use(Checkbox)
+  .use(Progress)
+  .use(Toast);
 app.mount('#app');

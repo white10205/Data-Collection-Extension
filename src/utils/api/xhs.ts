@@ -39,6 +39,7 @@ async function apiPost(path: string, data: any, method: string) {
     ...(body as any),
   });
   console.log('响应结果！！！', res);
+  return res.data
 }
 
 // 文章详情页的内容接口 feed
@@ -60,10 +61,10 @@ export async function getDetailPageData(
 }
 
 // 搜索关键字获取文章数据的接口 note
-export async function getSearchContent(keyword: string) {
+export async function getSearchContent(keyword: string, page: number) {
   const data = {
     keyword: keyword,
-    page: 1,
+    page: page,
     page_size: 20,
     search_id: '2f0iyxszsz86wsbt5yj7w',
     sort: 'general',
