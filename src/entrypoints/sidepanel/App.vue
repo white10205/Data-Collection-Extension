@@ -100,58 +100,59 @@ const collectNoteByKeyWorld = async (keyword: string, num: number, type: string[
 // 收集小红书笔记根据博主链接
 const collectNoteByUserLink = async (urls: string[], num: number) => {
   collected.value = 0;
-  target_num.value = num;
+  target_num.value = urls.length * num;
   collect_type.value = "6";
   is_collecting.value = true;
   status.value = "正在处理中";
   if (num <= 0) return [];
 
-  let page = 1;
-
   try {
     for (let url of urls) {
-      console.log("链接", url);
       // 增强URL解析逻辑
       const match = url.match(
-        /^https:\/\/www\.xiaohongshu\.com\/user\/profile\/([a-zA-Z0-9]+)(?:\?xsec_token=([^&]+))?(?:&xsec_source=([^&]+))?/
+        /^https:\/\/www\.xiaohongshu\.com\/user\/profile\/([a-zA-Z0-9]+)(?:\?.*xsec_token=([^&]+))?/
       );
       let userId, xsecToken;
 
       if (match) {
-        console.log("匹配成功");
-
         userId = match[1];
         xsecToken = match[2];
       }
+      let cursor = "";
+      let collectedPerUser = 0;
+      while (collectedPerUser < num) {
+        // 获取笔记列表
+        const notesList = await getUserNote(userId as string, xsecToken as string, cursor);
 
-      console.log("作者信息", userId, xsecToken);
+        if (!notesList.success || !notesList.data.notes.length) break;
 
-      // 获取笔记列表
-      const notesList = await getUserNote(userId as string, xsecToken as string);
+        // 计算本次需要采集的数量
+        const remaining = num - collectedPerUser;
+        const notesToCollect = notesList.data.notes.slice(0, remaining);
 
-      // 如果没有更多数据，提前结束
-      if (!notesList.data.notes.length) break;
-
-      for (const note of notesList.data.notes) {
-        if (collected.value >= num) break;
-
-        // 将请求加入队列（自动控制频率）
-        const detail = await requestQueue.add(() => getDetailPageData(note.note_id, note.xsec_token));
-        if (detail.success === true) {
-          browser.runtime.sendMessage({
-            type: "NOTE_DATA",
-            data: detail.data.items[0],
-          });
-        } else {
-          throw new Error("访问频率过快已被限制，请重启重试");
+        for (const note of notesToCollect) {
+          const detail = await requestQueue.add(() => getDetailPageData(note.note_id, note.xsec_token));
+          if (detail.success === true) {
+            browser.runtime.sendMessage({
+              type: "NOTE_DATA",
+              data: detail.data.items[0],
+            });
+            collected.value++;
+            collectedPerUser++;
+          } else {
+            throw new Error("访问频率过快已被限制，请重启重试");
+          }
         }
-        collected.value++;
+
+        // 更新cursor用于下次请求
+        cursor = notesList.data.cursor;
+
+        // 如果已经采集足够数量或没有更多数据，则跳出循环
+        if (collectedPerUser >= num || !notesList.data.has_more) break;
       }
 
       // 检查是否还有更多数据
-      if (!notesList.data.has_more || collected.value >= num) break;
-
-      page++;
+      if (collected.value >= target_num.value) break;
     }
     status.value = "收集完成，点击导出";
     is_collecting.value = false;
@@ -186,7 +187,7 @@ const collectNoteByLink = async (urls: string[]) => {
           data: detail.data.items[0],
         });
       } else {
-        throw new Error("访问频率过快已被限制，请重启重试");
+        throw new Error(detail.msg);
       }
       collected.value++;
     }

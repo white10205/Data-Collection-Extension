@@ -99,10 +99,13 @@ export async function getSearchContent(keyword: string, page: number) {
   return await apiPost("/search/notes", data, "POST");
 }
 
-export async function getUserNote(userId: string, xsec_token: string) {
-  const url = `/user_posted?user_id=${userId}&num=20&image_formats=jpg,webp,avif&xsec_token=${encodeURIComponent(
+export async function getUserNote(userId: string, xsec_token: string, cursor?: string) {
+  let url = `/user_posted?user_id=${userId}&num=20&image_formats=jpg,webp,avif&xsec_token=${encodeURIComponent(
     xsec_token
   )}&xsec_source=pc_feed`;
+  if (cursor) {
+    url += `&cursor=${cursor}`;
+  }
   await getTabId();
   const baseURL = "https://edith.xiaohongshu.com/api/sns/web/v1";
   const body = {
