@@ -7,6 +7,7 @@
         label="关键词"
         placeholder="请输入"
         :rules="[{ required: true, message: '请填写关键词' }]"
+        
       />
       <van-field
         v-model="formData.num"

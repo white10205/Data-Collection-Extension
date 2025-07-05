@@ -79,5 +79,5 @@ class RequestQueue {
   }
 }
 
-export default new RequestQueue(2.5);
+export default new RequestQueue(3);
 

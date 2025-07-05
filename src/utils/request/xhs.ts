@@ -14,7 +14,14 @@ const request = axios.create({
     withCredentials: true,
 });
 
-
+function generateXB3TraceId() {
+    const chars = '0123456789abcdef';
+    let result = '';
+    for (let i = 0; i < 16; i++) {
+      result += chars[Math.floor(Math.random() * 16)];
+    }
+    return result;
+}
 // 请求拦截器
 request.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
     const path = axios.getUri(config).replace(baseUrl, '')
@@ -30,7 +37,9 @@ request.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
     }).then(res => res?.[0]?.result);
     config.headers["x-s"] = sign['X-s'];
     config.headers["x-t"] = sign['X-t'];
+    config.headers["x-b3-traceid"] = generateXB3TraceId();
     config.headers["x-s-common"] = getXSCommon(sign);
+    
     return config;
 });
 

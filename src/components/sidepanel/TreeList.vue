@@ -8,65 +8,74 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from "vue";
 const props = defineProps<{
-  change: ( type: string) => {};
+  change: (type: string) => void;
 }>();
 const tree = ref([
   {
-    title: '采集博主信息',
+    title: "采集博主信息",
     func: [
       {
-        desc: '批量导出博主信息',
+        desc: "批量导出博主信息",
         onclick: () => {
-          console.log('采集');
+          console.log("采集");
         },
-        type:'1'
+        type: "1",
       },
       {
-        desc: '根据关键词采集',
+        desc: "根据关键词采集",
         onclick: () => {
-          console.log('采集');
+          console.log("采集");
         },
-        type:'2'
+        type: "2",
       },
     ],
   },
   {
-    title: '采集笔记数据',
+    title: "采集笔记数据",
     func: [
       {
-        desc: '根据博主链接采集',
+        desc: "根据博主链接采集",
         onclick: () => {
-          console.log('采集');
+          console.log("采集");
         },
-        type:'3'
+        type: "3",
       },
       {
-        desc: '根据笔记链接采集',
+        desc: "根据笔记链接采集",
         onclick: () => {
-          console.log('采集');
+          console.log("采集");
         },
-        type:'4'
+        type: "4",
       },
       {
-        desc: '根据关键词采集',
+        desc: "根据关键词采集",
         onclick: () => {
-          console.log('采集');
+          console.log("采集");
         },
-        type:'5'
+        type: "5",
       },
     ],
   },
   {
-    title: '采集评论数据',
+    title: "采集评论数据",
     func: [
       {
-        desc: '根据笔记链接采集',
+        desc: "根据笔记链接采集",
         onclick: () => {
-          console.log('采集');
+          console.log("采集");
         },
-        type:'6'
+        type: "7",
+      },
+    ],
+  },
+  {
+    title: "爆文排行榜",
+    func: [
+      {
+        desc: "爆文排行榜开关",
+        type: "8",
       },
     ],
   },
@@ -74,7 +83,7 @@ const tree = ref([
 </script>
 
 <style scoped>
-.tree-container{
+.tree-container {
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -82,10 +91,10 @@ const tree = ref([
   gap: 10px;
   padding: 15px;
 }
-.item{
+.item {
   width: 100%;
 }
-.btn{
+.btn {
   width: 80%;
   padding: 10px;
   display: flex;
@@ -94,8 +103,7 @@ const tree = ref([
   cursor: pointer;
   border-radius: 5px;
 }
-.btn:hover{
+.btn:hover {
   background-color: #e0e0e0;
 }
-
 </style>
